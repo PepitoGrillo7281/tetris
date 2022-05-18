@@ -84,6 +84,77 @@ class Board(object):
                     self.board[y-1][x]=0
                 x+=1
             y-=1
+    
+    
+    def move_left(self):
+        """
+        Makes all the dynamic figures move right. 
+
+        >>> b=Board((3,3))
+        >>> b.board[1][2]=2 # We add a dynamic figure manually
+        >>> b.print_board()
+        10001
+        10201
+        10001
+        11111
+        <BLANKLINE>
+        >>> b.move_left()
+        >>> b.print_board()
+        10001
+        12001
+        10001
+        11111
+        <BLANKLINE>
+        """
+        board_cpy=self.board.copy()
+        y=0
+        for row in self.board:
+            x=1
+            while x<(len(board_cpy[y])-1):
+                if board_cpy[y][x]==2:
+                    if board_cpy[y][x-1]==0:
+                        board_cpy[y][x-1]=2
+                        board_cpy[y][x]=0
+                    else:
+                        return
+                x+=1
+            y+=1
+        self.board=board_cpy.copy()
+
+    def move_right(self):
+        """
+        Makes all the dynamic figures move right. 
+
+        >>> b=Board((3,3))
+        >>> b.board[1][2]=2 # We add a dynamic figure manually
+        >>> b.print_board()
+        10001
+        10201
+        10001
+        11111
+        <BLANKLINE>
+        >>> b.move_right()
+        >>> b.print_board()
+        10001
+        10021
+        10001
+        11111
+        <BLANKLINE>
+        """
+        board_cpy=self.board.copy()
+        y=0
+        for row in self.board:
+            x=(len(board_cpy[0])-2)
+            while x>0:
+                if board_cpy[y][x]==2:
+                    if board_cpy[y][x+1]==0:
+                        board_cpy[y][x+1]=2
+                        board_cpy[y][x]=0
+                    else:
+                        return
+                x-=1
+            y+=1
+        self.board=board_cpy.copy()
 
     def print_board(self):
         """
@@ -92,7 +163,7 @@ class Board(object):
         string = ''
         for row in self.board:
             for element in row:
-                string +=str(element)+' '
+                string +=str(element)
             string+="\n"
         print(string)
 
@@ -142,4 +213,4 @@ class Board(object):
         # All pixels are able to fall
         self.fall_figure()
         return False
-
+    

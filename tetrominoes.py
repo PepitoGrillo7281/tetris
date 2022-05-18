@@ -7,9 +7,8 @@ pixels are empty. If not, the game ends (we return False).
 All available tetrominoes in the original game can be found
 here: https://tetris.fandom.com/wiki/Tetromino
 """
-from board import Board
+
 import random
-from pprint import pprint
 
 class Tetrominoes(object):
     def __init__(self,board):

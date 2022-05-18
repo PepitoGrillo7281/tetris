@@ -1,3 +1,5 @@
+from pprint import pprint
+
 class Board(object):
     def __init__(self,dimensions):
         """
@@ -105,16 +107,30 @@ class Board(object):
         10001
         11111
         <BLANKLINE>
+        >>> b.board[0][2]=2 # We add a dynamic figure manually
+        >>> b.move_left()
+        >>> b.print_board()
+        10201
+        12001
+        10001
+        11111
+        <BLANKLINE>
         """
-        board_cpy=self.board.copy()
+        board_cpy = []
+        for a in self.board:
+            aux = []
+            for b in a:
+                aux.append(b)
+            board_cpy.append(aux)
         y=0
-        for row in self.board:
+        for row in board_cpy:
             x=1
             while x<(len(board_cpy[y])-1):
                 if board_cpy[y][x]==2:
                     if board_cpy[y][x-1]==0:
                         board_cpy[y][x-1]=2
                         board_cpy[y][x]=0
+
                     else:
                         return
                 x+=1
@@ -141,7 +157,12 @@ class Board(object):
         11111
         <BLANKLINE>
         """
-        board_cpy=self.board.copy()
+        board_cpy = []
+        for a in self.board:
+            aux = []
+            for b in a:
+                aux.append(b)
+            board_cpy.append(aux)
         y=0
         for row in self.board:
             x=(len(board_cpy[0])-2)
@@ -213,4 +234,3 @@ class Board(object):
         # All pixels are able to fall
         self.fall_figure()
         return False
-    

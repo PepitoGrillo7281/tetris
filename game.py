@@ -3,7 +3,7 @@ from board import Board
 class Game(object):
     def __init__(self):
         # Starts a new game
-        self.board = Board((10,20))
+        self.board = Board((10,22))
         self.board.board[0][int(self.board.dimensions[0]/2)]=2
 
     def blit(self):

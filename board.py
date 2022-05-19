@@ -1,4 +1,5 @@
 from pprint import pprint
+import rotation
 
 class Board(object):
     def __init__(self,dimensions):
@@ -38,17 +39,17 @@ class Board(object):
         >>> b=Board((3,3))
         >>> b.board[0][2]=2 # We add a dynamic figure manually
         >>> b.print_board()
-        10201
-        10001
-        10001
-        11111
+        30203
+        30003
+        30003
+        33333
         <BLANKLINE>
         >>> b.fall_figure()
         >>> b.print_board()
-        10001
-        10201
-        10001
-        11111
+        30003
+        30203
+        30003
+        33333
         <BLANKLINE>
 
         >>> b=Board((7,3))
@@ -56,24 +57,24 @@ class Board(object):
         >>> b.board[0][3]=2 # We add a dynamic figure manually
         >>> b.board[1][3]=2 # We add a dynamic figure manually
         >>> b.print_board()
-        102200001
-        100200001
-        100000001
-        111111111
+        302200003
+        300200003
+        300000003
+        333333333
         <BLANKLINE>
         >>> b.fall_figure()
         >>> b.print_board()
-        100000001
-        102200001
-        100200001
-        111111111
+        300000003
+        302200003
+        300200003
+        333333333
         <BLANKLINE>
         >>> b.fall_figure()
         >>> b.print_board()
-        100000001
-        100000001
-        102200001
-        111211111
+        300000003
+        300000003
+        302200003
+        333233333
         <BLANKLINE>
         """
         # We're iterating the board backwards.
@@ -95,25 +96,25 @@ class Board(object):
         >>> b=Board((3,3))
         >>> b.board[1][2]=2 # We add a dynamic figure manually
         >>> b.print_board()
-        10001
-        10201
-        10001
-        11111
+        30003
+        30203
+        30003
+        33333
         <BLANKLINE>
         >>> b.move_left()
         >>> b.print_board()
-        10001
-        12001
-        10001
-        11111
+        30003
+        32003
+        30003
+        33333
         <BLANKLINE>
         >>> b.board[0][2]=2 # We add a dynamic figure manually
         >>> b.move_left()
         >>> b.print_board()
-        10201
-        12001
-        10001
-        11111
+        30203
+        32003
+        30003
+        33333
         <BLANKLINE>
         """
         board_cpy = []
@@ -144,17 +145,17 @@ class Board(object):
         >>> b=Board((3,3))
         >>> b.board[1][2]=2 # We add a dynamic figure manually
         >>> b.print_board()
-        10001
-        10201
-        10001
-        11111
+        30003
+        30203
+        30003
+        33333
         <BLANKLINE>
         >>> b.move_right()
         >>> b.print_board()
-        10001
-        10021
-        10001
-        11111
+        30003
+        30023
+        30003
+        33333
         <BLANKLINE>
         """
         board_cpy = []
@@ -177,6 +178,85 @@ class Board(object):
             y+=1
         self.board=board_cpy.copy()
 
+    def rotate(self):
+        """
+        >>> b=Board((3,3))
+        >>> b.board=[[3,0,0,0,0,0,3],[3,0,2,2,0,0,3],[3,0,2,2,0,0,3],[3,0,2,2,0,0,3],[3,0,0,0,0,0,3],[3,3,3,3,3,3,3],]
+        >>> b.print_board()
+        3000003
+        3022003
+        3022003
+        3022003
+        3000003
+        3333333
+        <BLANKLINE>
+        >>> b=Board((10,22))
+        >>> b.board[16][6]=2
+        >>> b.board[16][7]=2
+        >>> b.board[17][5]=2
+        >>> b.board[17][6]=2
+        >>> b.print_board()
+        300000000003
+        300000000003
+        300000000003
+        300000000003
+        300000000003
+        300000000003
+        300000000003
+        300000000003
+        300000000003
+        300000000003
+        300000000003
+        300000000003
+        300000000003
+        300000000003
+        300000000003
+        300000000003
+        300000220003
+        300002200003
+        300000000003
+        300000000003
+        300000000003
+        300000000003
+        333333333333
+        <BLANKLINE>
+        >>> b.rotate()
+        """
+        # We check the smallest square where
+        # the tetromino fits in
+        min_dimension = [len(self.board)+2,len(self.board[0])+2]
+        max_dimension = [0,0]
+        y=0
+        for row in self.board:
+            x=0
+            for pixel in row:
+                if pixel==2:
+                    if x>max_dimension[1]:
+                        max_dimension[1]=x
+                    if x<min_dimension[1]:
+                        min_dimension[1]=x
+                    if y>max_dimension[0]:
+                        max_dimension[0]=y
+                    if y<min_dimension[0]:
+                        min_dimension[0]=y
+                x+=1
+            y+=1
+        # We make the rectangle a square, in case it isn't
+        size = max(max_dimension[0]-min_dimension[0],max_dimension[1]-min_dimension[1])
+        #print(size)
+        # We create the arrays board_before and board_after
+        board_before=[]
+        y=0
+        for row in self.board:
+            if y>=min_dimension[0] and y<=min_dimension[0]+size:
+                board_before.append(row[min_dimension[1]:min_dimension[1]+size+1])
+            y+=1
+        pprint(board_before)
+        board_after = rotation.copy_arr(board_before)
+        rotation.rotate90(board_after)
+        print(rotation.is_legal(board_before,board_after))
+
+
     def print_board(self):
         """
         Prints the board to the terminal.
@@ -196,26 +276,26 @@ class Board(object):
         >>> b=Board((3,3))
         >>> b.board[1][2]=2 # We add a dynamic figure manually
         >>> b.print_board()
-        10001
-        10201
-        10001
-        11111
+        30003
+        30203
+        30003
+        33333
         <BLANKLINE>
         >>> b.blit()
         False
         >>> b.print_board()
-        10001
-        10001
-        10201
-        11111
+        30003
+        30003
+        30203
+        33333
         <BLANKLINE>
         >>> b.blit()
         True
         >>> b.print_board()
-        10001
-        10001
-        10101
-        11111
+        30003
+        30003
+        30103
+        33333
         <BLANKLINE>
         """
         
@@ -234,3 +314,10 @@ class Board(object):
         # All pixels are able to fall
         self.fall_figure()
         return False
+
+b=Board((10,22))
+b.board[16][6]=2
+b.board[16][7]=2
+b.board[17][5]=2
+b.board[17][6]=2
+b.rotate()

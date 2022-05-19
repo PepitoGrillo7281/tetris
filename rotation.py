@@ -56,6 +56,9 @@ def pixel_movement(pixel_before,pixel_after):
     """
     if pixel_before==0 or pixel_after == 0:
         return True
+    if pixel_before==2 and pixel_after==2:
+        return True
+    return False
     
 
 def is_legal(subboard_before,subboard_after):

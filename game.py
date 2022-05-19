@@ -19,6 +19,7 @@ class Game(object):
         self.pixel_size = 22
         self.blit_rate = 0.4 # time in seconds between each blit. Can be a float
         self.last_blit = time.time()
+        self.blitting=False
         
     def paint_board(self):
         self.screen.fill((0, 0, 0))
@@ -37,6 +38,7 @@ class Game(object):
             y+=1
 
     def blit(self):
+        self.blitting=True
         self.last_blit = time.time()
         state = self.board.blit()
         if state:
@@ -45,6 +47,7 @@ class Game(object):
                 pass #GAME MUST END!
         self.paint_board()
         pygame.display.flip()
+        self.blitting=False
 
     def run(self):
         if (time.time()-self.last_blit)>self.blit_rate:
@@ -53,14 +56,17 @@ class Game(object):
             if event.type == pygame.QUIT:
                 sys.exit()
             elif event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_LEFT:
-                    self.board.move_left()
-                    self.paint_board()
-                if event.key == pygame.K_RIGHT:
-                    self.board.move_right()
-                    self.paint_board()
-                if event.key == pygame.K_DOWN:
-                    self.blit()
+                if not self.blitting:
+                    if event.key == pygame.K_LEFT:
+                        self.board.move_left()
+                        self.paint_board()
+                    if event.key == pygame.K_RIGHT:
+                        self.board.move_right()
+                        self.paint_board()
+                    if event.key == pygame.K_DOWN:
+                        self.blit()
+                    if event.key == pygame.K_UP:
+                        self.board.rotate()
             pygame.display.flip()
 
 if __name__=='__main__':

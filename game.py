@@ -12,8 +12,9 @@ class Game(object):
         self.screen=screen
         self.colors ={
             # 0:(0,0,0) # avoided to improve rendering
-            1:(150,150,150),
+            1:(100,100,100),
             2:(255,0,0),
+            3:(150,150,150),
         }
         self.pixel_size = 22
         self.blit_rate = 0.4 # time in seconds between each blit. Can be a float

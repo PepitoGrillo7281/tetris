@@ -12,9 +12,9 @@ class Board(object):
         for i in range(dimensions[1]):
             self.board.append([0]*(dimensions[0]+2))
         for row in self.board:
-            row[0]=1
-            row[-1]=1
-        self.board.append([1]*(dimensions[0]+2))
+            row[0]=3
+            row[-1]=3
+        self.board.append([3]*(dimensions[0]+2))
 
     def set_static(self):
         """
@@ -225,7 +225,7 @@ class Board(object):
             x=0
             for element in row:
                 if element==2:
-                    if self.board[y+1][x]==1:
+                    if self.board[y+1][x]!=0 and self.board[y+1][x]!=2:
                         # Figure can't fall. Converting it into static figures
                         self.set_static()
                         return True

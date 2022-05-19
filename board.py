@@ -191,11 +191,15 @@ class Board(object):
         3333333
         <BLANKLINE>
         >>> b=Board((10,22))
-        >>> b.board[16][6]=2
-        >>> b.board[16][7]=2
-        >>> b.board[17][5]=2
-        >>> b.board[17][6]=2
+        >>> b.board[19][6]=2
+        >>> b.board[19][7]=2
+        >>> b.board[20][5]=2
+        >>> b.board[20][6]=2
+        >>> b.board[21][6]=1
         >>> b.print_board()
+        300000000003
+        300000000003
+        300000000003
         300000000003
         300000000003
         300000000003
@@ -214,13 +218,35 @@ class Board(object):
         300000000003
         300000220003
         300002200003
-        300000000003
-        300000000003
-        300000000003
-        300000000003
+        300000100003
         333333333333
         <BLANKLINE>
         >>> b.rotate()
+        >>> b.print_board()
+        300000000003
+        300000000003
+        300000000003
+        300000000003
+        300000000003
+        300000000003
+        300000000003
+        300000000003
+        300000000003
+        300000000003
+        300000000003
+        300000000003
+        300000000003
+        300000000003
+        300000000003
+        300000000003
+        300000000003
+        300002000003
+        300002200003
+        300000200003
+        300000000003
+        300001000003
+        333333333333
+        <BLANKLINE>
         """
         # We check the smallest square where
         # the tetromino fits in
@@ -251,10 +277,20 @@ class Board(object):
             if y>=min_dimension[0] and y<=min_dimension[0]+size:
                 board_before.append(row[min_dimension[1]:min_dimension[1]+size+1])
             y+=1
-        pprint(board_before)
-        board_after = rotation.copy_arr(board_before)
-        rotation.rotate90(board_after)
-        print(rotation.is_legal(board_before,board_after))
+        print(board_before)
+        if rotation.is_legal(board_before):
+            board_after = rotation.copy_arr(board_before)
+            rotation.rotate90(board_after)
+            rotation.merge(board_before,board_after)
+            y=min_dimension[0]
+            for row in board_after:
+                x=min_dimension[1]
+                for pixel in row:
+                    if (pixel==0 or pixel==2) and self.board[y][x]!=1 and self.board[y][x]!=3:
+                        self.board[y][x]=pixel
+                    x+=1
+                y+=1
+        
 
 
     def print_board(self):

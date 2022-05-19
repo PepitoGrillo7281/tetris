@@ -61,7 +61,7 @@ def pixel_movement(pixel_before,pixel_after):
     return False
     
 
-def is_legal(subboard_before,subboard_after):
+def is_legal(subboard_before):
     """
     We check if it is legal to rotate the tetrominoe.
     :param list subboard_before: Subboard before rotation.
@@ -76,17 +76,37 @@ def is_legal(subboard_before,subboard_after):
     >>> rotate90(ssubboard)
     >>> is_legal(subboard,ssubboard)
     False
+    >>> subboard=[[2,0,0],[2,2,2],[0,1,1]]
+    >>> ssubboard = copy_arr(subboard)
+    >>> rotate90(ssubboard)
+    >>> is_legal(subboard,ssubboard)
+    False
     """
     y=0
-    for row_after in subboard_after:
+    for row_after in subboard_before:
+        if 1 in row_after or 3 in row_after:
+            return False
+    return True
+
+def merge(subboard_before,subboard_after):
+    """
+    >>> l1=[[2, 2, 2], [1, 0, 2], [1, 0, 0]]
+    >>> l2=[[2, 2, 0], [2, 0, 0], [2, 1, 1]]
+    >>> merge()
+    """
+    # We remove all the '2' of the old subboard
+    # We place all the '2' from the rotated subboard
+    y=0
+    for row_before in subboard_before:
         x=0
-        for pixel_after in row_after:
-            if pixel_after==2:
-                if not pixel_movement(subboard_before[y][x],pixel_after):
-                    return False
+        for pixel in row_before:
+            if pixel==2:
+                subboard_before[y][x]=0
+            if subboard_after[y][x]==2:
+                subboard_before[y][x]=2
             x+=1
         y+=1
-    return True
+    
 
 
 

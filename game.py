@@ -67,6 +67,7 @@ class Game(object):
                         self.blit()
                     if event.key == pygame.K_UP:
                         self.board.rotate()
+                        self.paint_board()
             pygame.display.flip()
 
 if __name__=='__main__':

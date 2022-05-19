@@ -3,6 +3,7 @@ from tetrominoes import Tetrominoes
 import pygame
 import sys
 import time
+import random
 
 class Game(object):
     def __init__(self,screen):
@@ -17,7 +18,7 @@ class Game(object):
             3:(150,150,150),
         }
         self.pixel_size = 22
-        self.blit_rate = 0.4 # time in seconds between each blit. Can be a float
+        self.blit_rate = 0.5 # time in seconds between each blit. Can be a float
         self.last_blit = time.time()
         self.blitting=False
         
@@ -51,6 +52,11 @@ class Game(object):
 
     def run(self):
         if (time.time()-self.last_blit)>self.blit_rate:
+            print(self.blit_rate)
+            if self.blit_rate>0.15:
+                self.blit_rate-=(self.blit_rate/100)*1.002*random.randint(10,12)/10
+            elif self.blit_rate>0.1:
+                self.blit_rate-=(self.blit_rate/100)*1.0005*random.randint(10,11)/10
             self.blit()
         for event in pygame.event.get():  
             if event.type == pygame.QUIT:

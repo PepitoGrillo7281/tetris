@@ -222,31 +222,6 @@ class Board(object):
         333333333333
         <BLANKLINE>
         >>> b.rotate()
-        >>> b.print_board()
-        300000000003
-        300000000003
-        300000000003
-        300000000003
-        300000000003
-        300000000003
-        300000000003
-        300000000003
-        300000000003
-        300000000003
-        300000000003
-        300000000003
-        300000000003
-        300000000003
-        300000000003
-        300000000003
-        300000000003
-        300002000003
-        300002200003
-        300000200003
-        300000000003
-        300001000003
-        333333333333
-        <BLANKLINE>
         """
         # We check the smallest square where
         # the tetromino fits in
@@ -277,7 +252,6 @@ class Board(object):
             if y>=min_dimension[0] and y<=min_dimension[0]+size:
                 board_before.append(row[min_dimension[1]:min_dimension[1]+size+1])
             y+=1
-        print(board_before)
         if rotation.is_legal(board_before):
             board_after = rotation.copy_arr(board_before)
             rotation.rotate90(board_after)
@@ -291,7 +265,53 @@ class Board(object):
                     x+=1
                 y+=1
         
-
+    def victory(self):
+        """
+        >>> b=Board((3,3))
+        >>> b.board=[[3,0,0,0,0,0,3],[3,0,0,0,0,0,3],[3,0,0,0,0,0,3],[3,0,0,0,0,0,3],[3,0,0,0,0,0,3],[3,3,3,3,3,3,3],]
+        >>> b.print_board()
+        3000003
+        3000003
+        3000003
+        3000003
+        3000003
+        3333333
+        <BLANKLINE>
+        >>> b.victory()
+        0
+        >>> b.board=[[3,0,0,0,0,0,3],[3,0,0,0,0,0,3],[3,0,0,0,0,0,3],[3,0,0,0,0,0,3],[3,1,1,4,4,5,3],[3,3,3,3,3,3,3],]
+        >>> b.print_board()
+        3000003
+        3000003
+        3000003
+        3000003
+        3114453
+        3333333
+        <BLANKLINE>
+        >>> b.victory()
+        1
+        >>> b.print_board()
+        3000003
+        3000003
+        3000003
+        3000003
+        3000003
+        3333333
+        <BLANKLINE>
+        """
+        y=0
+        count =0
+        while y<len(self.board)-1:
+            if ((0 not in self.board[y]) and (2 not in self.board[y])):
+                # Row can be removed
+                count+=1
+                self.board.remove(self.board[y])
+                lst=[0]*len(self.board[0])
+                lst[0]=3
+                lst[-1]=3
+                self.board.insert(0,lst)
+            y+=1
+        return count
 
     def print_board(self):
         """
@@ -350,10 +370,3 @@ class Board(object):
         # All pixels are able to fall
         self.fall_figure()
         return False
-
-b=Board((10,22))
-b.board[16][6]=2
-b.board[16][7]=2
-b.board[17][5]=2
-b.board[17][6]=2
-b.rotate()

@@ -46,16 +46,16 @@ class Game(object):
             cont=self.tetrominoes.place_random()
             if not cont:
                 pass #GAME MUST END!
+        a = self.board.victory()
         self.paint_board()
         pygame.display.flip()
         self.blitting=False
 
     def run(self):
         if (time.time()-self.last_blit)>self.blit_rate:
-            print(self.blit_rate)
             if self.blit_rate>0.15:
                 self.blit_rate-=(self.blit_rate/100)*1.002*random.randint(10,12)/10
-            elif self.blit_rate>0.1:
+            elif self.blit_rate>0.13:
                 self.blit_rate-=(self.blit_rate/100)*1.0005*random.randint(10,11)/10
             self.blit()
         for event in pygame.event.get():  

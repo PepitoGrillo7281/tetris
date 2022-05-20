@@ -66,20 +66,14 @@ def is_legal(subboard_before):
     We check if it is legal to rotate the tetrominoe.
     :param list subboard_before: Subboard before rotation.
     :param list subboard_after: Subboard after rotation.
-    >>> subboard=[[3,0,0],[3,0,2],[3,1,2]]
-    >>> ssubboard = copy_arr(subboard)
-    >>> rotate90(ssubboard)
-    >>> is_legal(subboard,ssubboard)
+    >>> subboard=[[0,0,0],[0,0,2],[2,2,2]]
+    >>> is_legal(subboard)
     True
     >>> subboard=[[3,0,1],[3,0,2],[3,1,2]]
-    >>> ssubboard = copy_arr(subboard)
-    >>> rotate90(ssubboard)
-    >>> is_legal(subboard,ssubboard)
+    >>> is_legal(subboard)
     False
     >>> subboard=[[2,0,0],[2,2,2],[0,1,1]]
-    >>> ssubboard = copy_arr(subboard)
-    >>> rotate90(ssubboard)
-    >>> is_legal(subboard,ssubboard)
+    >>> is_legal(subboard)
     False
     """
     y=0
@@ -92,7 +86,9 @@ def merge(subboard_before,subboard_after):
     """
     >>> l1=[[2, 2, 2], [1, 0, 2], [1, 0, 0]]
     >>> l2=[[2, 2, 0], [2, 0, 0], [2, 1, 1]]
-    >>> merge()
+    >>> merge(l1,l2)
+    >>> l1
+    [[2, 2, 0], [2, 0, 0], [2, 0, 0]]
     """
     # We remove all the '2' of the old subboard
     # We place all the '2' from the rotated subboard

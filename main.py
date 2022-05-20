@@ -7,7 +7,18 @@ from game import Game
 
 class Tetris(object):
     def __init__(self):
-        self.screen = pygame.display.set_mode([800, 480])
+        pygame.init()
+        self.screen = pygame.display.set_mode([800, 550])
+        self.font_subtitle = pygame.font.Font('sources/arcade.ttf',52)
+        self.font_plain_text = pygame.font.Font('sources/arcade.ttf',22)
 
     def start_game(self):
-        Game(self.screen)
+        g = Game(self)
+        g.blit()
+        g.tetrominoes.place_random()
+        while True:
+            g.run()
+
+if __name__=='__main__':
+    t = Tetris()
+    t.start_game()
